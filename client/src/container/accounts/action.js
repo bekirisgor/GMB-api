@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const FETCH_ACCOUNTS_BEGIN = "FETCH_ACCOUNTS_BEGIN";
-export const FETCH_ACCOUNTS_SUCCESS = "FETCH_ACCOUNTS_SUCCESS";
-export const FETCH_ACCOUNTS_FAILURE = "FETCH_ACCOUNTS_FAILURE";
+export const FETCH_ACCOUNTS_BEGIN = 'FETCH_ACCOUNTS_BEGIN';
+export const FETCH_ACCOUNTS_SUCCESS = 'FETCH_ACCOUNTS_SUCCESS';
+export const FETCH_ACCOUNTS_FAILURE = 'FETCH_ACCOUNTS_FAILURE';
 
 export const fetchAccounts = () => {
-  console.log("sss");
+  console.log('sss');
 
-  return async function(dispatch) {
+  return async dispatch => {
     dispatch(fetchAccountsBegin());
-    console.log("aaaaa");
+    console.log('aaaaa');
 
-    return await axios
-      .get("/accounts/list")
+    return axios
+      .get('/accounts/list')
       .then(res => {
         dispatch(fetchAccountsSucces(res.data));
       })
@@ -23,15 +23,15 @@ export const fetchAccounts = () => {
 };
 
 const fetchAccountsBegin = () => ({
-  type: FETCH_ACCOUNTS_BEGIN
+  type: FETCH_ACCOUNTS_BEGIN,
 });
 
 const fetchAccountsSucces = accounts => ({
   type: FETCH_ACCOUNTS_SUCCESS,
-  payload: { accounts }
+  payload: { accounts },
 });
 
 const fetchAccountsFailure = error => ({
   type: FETCH_ACCOUNTS_FAILURE,
-  payload: { error }
+  payload: { error },
 });

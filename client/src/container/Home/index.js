@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { Table, Button, Header } from "semantic-ui-react";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
 
-export const Home = class Home extends Component {
+const Home = class Home extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <div>
@@ -26,5 +25,4 @@ export const Home = class Home extends Component {
     );
   }
 };
-
-export default withRouter(Home);
+export default Home;

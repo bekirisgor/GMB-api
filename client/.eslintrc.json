@@ -1,0 +1,24 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["airbnb", "airbnb/hooks", "airbnb", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
+  "plugins": ["jsx-a11y", "prettier", "react"],
+  "parser": "babel-eslint",
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+
+    "no-use-before-define": "off",
+    "react/prop-types": "off",
+    "quotes": "off",
+    "arrow-parens": "off",
+    "spaced-comment": "off",
+    "linebreak-style": "off",
+    "no-console": "off",
+    "no-plusplus": "off",
+    "no-await-in-loop": "off",
+    "no-unused-vars": "warn",
+    "comma-dangle": "off"
+  }
+}

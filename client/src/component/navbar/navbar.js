@@ -1,26 +1,18 @@
-import React, { Component } from "react";
-import { Menu, Container, Image } from "semantic-ui-react";
-import rimoilogo from "../../static/logo-light.png";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router";
+import React from 'react';
+import { Menu, Container, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import rimoilogo from '../../static/logo-light.png';
 
-class NavBar extends Component {
-  state = {};
-
-  render() {
-    return (
-      <Menu
-        inverted
-        fixed="top"
-        style={{ maxHeight: "75px", backgroundColor: "#17181a" }}
-      >
-        <Image src={rimoilogo} size="small" style={{ margin: "10px" }} />
+const NavBar = () => {
+  return (
+    <Container>
+      <Menu inverted fixed="top" style={{ maxHeight: '75px', backgroundColor: '#17181a' }}>
+        <Image src={rimoilogo} size="small" style={{ margin: '10px' }} />
         <Container
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "70px"
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Menu.Item>
@@ -38,7 +30,8 @@ class NavBar extends Component {
           </Menu.Item>
         </Container>
       </Menu>
-    );
-  }
-}
+    </Container>
+  );
+};
+
 export default NavBar;

@@ -4,16 +4,16 @@ import {
   FETCH_REVIEWS_FAILURE,
   SEND_REVIEWS_BEGIN,
   SEND_REVIEWS_SUCCESS,
-  SEND_REVIEWS_FAILURE
-} from "./action";
+  SEND_REVIEWS_FAILURE,
+} from './action';
 
 const initialState = {
   reviews: [],
   loading: false,
   error: null,
-  reply: "",
+  reply: '',
   replyError: null,
-  replyLoading: false
+  replyLoading: false,
 };
 
 export const reviews = (state = initialState, action) => {
@@ -22,45 +22,43 @@ export const reviews = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
       };
     case FETCH_REVIEWS_SUCCESS:
       return {
         ...state,
         loading: false,
-        reviews: action.payload.reviews
+        reviews: action.payload.reviews,
       };
     case FETCH_REVIEWS_FAILURE:
       return {
         ...state,
         loading: true,
         reviews: [],
-        error: action.payload.error
+        error: action.payload.error,
       };
     case SEND_REVIEWS_BEGIN:
       return {
         ...state,
         replyLoading: true,
-        replyError: null
+        replyError: null,
       };
     case SEND_REVIEWS_SUCCESS:
       return {
         ...state,
         replyLoading: false,
         reply: action.payload.reply,
-        replyError: null
+        replyError: null,
       };
     case SEND_REVIEWS_FAILURE:
       return {
         ...state,
         replyLoading: false,
-        reply: "",
-        replyError: action.payload.replyError
+        reply: '',
+        replyError: action.payload.replyError,
       };
 
     default:
       return state;
   }
 };
-
-//review ve reply ayrılacak (statelerin hepsini kullanıyor)

@@ -1,24 +1,27 @@
-import React, { Component } from "react";
-import { connect, useDispatch } from "react-redux";
-import { fetchAccounts } from "./action";
-import { bindActionCreators } from "redux";
-import TableComp from "../../component/table/tablecomp";
-import { Table, Button, Header } from "semantic-ui-react";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
+import TableComp from '../../component/table/tablecomp';
+import { fetchAccounts } from './action';
 
 export class AccTable extends Component {
   constructor(props) {
     super(props);
     this.state = [];
   }
+
   componentDidMount() {
     this.handlefetchAccounts();
   }
-  handleFetchAccounts = () => {
+
+  handleFetchAccounts() {
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.fetchAccounts();
-  };
+  }
+
   render() {
-    const { accounts, loading, error } = this.props;
+    const { accounts } = this.props;
 
     return (
       <div>
@@ -31,12 +34,10 @@ export class AccTable extends Component {
 const mapStateToProps = state => ({
   accounts: state.accounts.accounts,
   loading: state.accounts.loading,
-  error: state.accounts.error
+  error: state.accounts.error,
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ fetchAccounts }, dispatch);
 };
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AccTable)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AccTable));

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var reviewsSchema = new mongoose.Schema({
+const reviewsSchema = new mongoose.Schema({
   name: { type: String, index: { unique: true } },
   reviewId: String,
   reviewer: {
@@ -18,4 +18,4 @@ var reviewsSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("reviews", reviewsSchema);
+module.exports = mongoose.model('reviews', reviewsSchema);

@@ -1,35 +1,32 @@
-import {
-  FETCH_ACCOUNTS_BEGIN,
-  FETCH_ACCOUNTS_SUCCESS,
-  FETCH_ACCOUNTS_FAILURE
-} from "./action";
+import { FETCH_ACCOUNTS_BEGIN, FETCH_ACCOUNTS_SUCCESS, FETCH_ACCOUNTS_FAILURE } from './action';
 
 const initialState = {
   accounts: [],
   loading: false,
-  error: null
+  error: null,
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export const accounts = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ACCOUNTS_BEGIN:
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
       };
     case FETCH_ACCOUNTS_SUCCESS:
       return {
         ...state,
         loading: false,
-        accounts: action.payload.accounts
+        accounts: action.payload.accounts,
       };
     case FETCH_ACCOUNTS_FAILURE:
       return {
         ...state,
         loading: true,
         accounts: [],
-        error: action.payload.error
+        error: action.payload.error,
       };
     default:
       return state;
