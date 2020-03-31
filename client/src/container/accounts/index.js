@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
-import TableComp from '../../component/table/tablecomp';
-import { fetchAccounts } from './action';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router";
+import TableComp from "../../component/table/tablecomp";
+import { fetchAccounts } from "./action";
 
 export class AccTable extends Component {
   constructor(props) {
@@ -21,23 +21,17 @@ export class AccTable extends Component {
   }
 
   render() {
-    const { accounts } = this.props;
+    const { accounts, loading } = this.props;
 
-    return (
-      <div>
-        loading ? <div>loading</div> : <TableComp data={accounts} />
-      </div>
-    );
+    return <div>{loading ? <div>loading</div> : <TableComp data={accounts} />}</div>;
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: state.accounts.accounts,
   loading: state.accounts.loading,
   error: state.accounts.error,
 });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ fetchAccounts }, dispatch);
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchAccounts }, dispatch);
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AccTable));

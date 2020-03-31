@@ -1,15 +1,14 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
-
-  "extends": ["airbnb", "airbnb/hooks", "prettier"],
-  "plugins": ["prettier", "react"],
+  "root": true,
+  "extends": ["prettier"],
+  "plugins": [],
 
   "rules": {
-    "no-template-curly-in-string": "off",
-    "no-useless-constructor": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-use-before-define": "off",
     "react/destructuring-assignment": "off",
@@ -21,11 +20,6 @@
     "no-plusplus": "off",
     "no-await-in-loop": "off",
     "no-unused-vars": "warn",
-    "comma-dangle": "off",
-    "react/prop-types": "off",
-    "implicit-arrow-linebreak": "off",
-    "no-confusing-arrow": "off",
-    "function-paren-newline": "off",
-    "import/prefer-default-export": "off"
+    "comma-dangle": "off"
   }
 }

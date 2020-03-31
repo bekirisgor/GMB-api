@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Checkbox, Segment, Container } from 'semantic-ui-react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Checkbox, Segment } from "semantic-ui-react";
 // eslint-disable-next-line no-unused-vars
-import _ from 'lodash';
-import { fetchReviews, sendReviewReply } from './action';
-import ReviewCard from '../../component/reviewCard/reviewCard';
+import _ from "lodash";
+import { fetchReviews, sendReviewReply } from "./action";
+import ReviewCard from "../../component/reviewCard/reviewCard";
 
 export class Reviews extends Component {
   constructor(props) {
@@ -22,15 +22,22 @@ export class Reviews extends Component {
     };
   }
 
-  handleonChange = (event, value) => {
+  componentDidMount() {
+    this.props
+      .fetchReviews("accounts/115207451364315737681/locations/4439430707710281699")
+      .then(() => this.setState({ filtered: this.props.reviews }));
+    console.log(this.state.filtered);
+  }
+
+  handleonChange(value) {
     let result = [];
     switch (true) {
-      case value.checked === true && value.value === 'comments':
+      case value.checked === true && value.value === "comments":
         this.setState({ filterComment: !value.checked });
         result = this.state.filtered.filter((items) => items.comment);
         this.setState({ filtered: result });
         break;
-      case value.checked === true && value.value === 'replies':
+      case value.checked === true && value.value === "replies":
         this.setState({ filterReply: !value.checked });
         result = this.state.filtered.filter((items) => items.reviewReply);
         this.setState({ filtered: result });
@@ -41,29 +48,33 @@ export class Reviews extends Component {
     }
 
     //    this.setState({ filtered: this.props.reviews });
-  };
-  componentWillMount() {
-    this.props
-      .fetchReviews('accounts/115207451364315737681/locations/4439430707710281699')
-      .then(() => this.setState({ filtered: this.props.reviews }));
-    console.log(this.state.filtered);
   }
 
-  handleSendForm = (event) => {
+  handleSendForm(event) {
     this.props.sendReviewReply(event.text, event.key);
-    console.log('asd', event.text, event.key);
-  };
+    console.log("asd", event.text, event.key);
+  }
 
   render() {
-    const { loading, reviews } = this.props;
+    const { loading } = this.props;
 
     if (loading) return <div>loading</div>;
     console.log(this.state.filtered);
     return (
-      <div style={{ marginLeft: '200px', marginBlockStart: '220px' }}>
+      <div style={{ marginLeft: "200px", marginBlockStart: "220px" }}>
         <Segment>
-          <Checkbox label="Show Only With Comments" key="comments" value="comments" onClick={this.handleonChange} />
-          <Checkbox label="Show Only With Reply" key="replies" value="replies" onChange={this.handleonChange} />
+          <Checkbox
+            label="Show Only With Comments"
+            key="comments"
+            value="comments"
+            onClick={this.handleonChange}
+          />
+          <Checkbox
+            label="Show Only With Reply"
+            key="replies"
+            value="replies"
+            onChange={this.handleonChange}
+          />
         </Segment>
         {this.state.filtered.map((items) => (
           <ReviewCard data={items} onSubmitForm={this.handleSendForm} />
@@ -83,7 +94,6 @@ const mapStateToProps = (state) => ({
   replyLoading: state.reviews.replyLoading,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ fetchReviews, sendReviewReply }, dispatch);
-};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ fetchReviews, sendReviewReply }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

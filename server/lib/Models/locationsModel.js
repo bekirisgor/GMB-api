@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var locationSchema = new mongoose.Schema({
+const locationSchema = new mongoose.Schema({
   name: { type: String, index: { unique: true } },
   languageCode: String,
   storeCode: String,
@@ -18,39 +18,39 @@ var locationSchema = new mongoose.Schema({
     sublocality: String,
     addressLines: [String],
     recipients: [String],
-    organization: String
+    organization: String,
   },
   primaryCategory: {
     displayName: String,
-    categoryId: String
+    categoryId: String,
   },
   additionalCategories: [
     {
       displayName: String,
-      categoryId: String
-    }
+      categoryId: String,
+    },
   ],
   websiteUrl: String,
   regularHours: {
     openDay: String,
     openTime: String,
     closeDay: String,
-    closeTime: String
+    closeTime: String,
   },
   specialHours: {
     startDate: {
       year: Number,
       month: Number,
-      day: Number
+      day: Number,
     },
     openTime: String,
     endDate: {
       year: Number,
       month: Number,
-      day: Number
+      day: Number,
     },
     closeTime: String,
-    isClosed: Boolean
+    isClosed: Boolean,
   },
   serviceArea: {
     businessType: String,
@@ -58,28 +58,28 @@ var locationSchema = new mongoose.Schema({
     radius: {
       latlng: {
         latitude: Number,
-        longitude: Number
+        longitude: Number,
       },
-      radiusKm: Number
+      radiusKm: Number,
     },
     places: {
       name: String,
-      placeId: String
-    }
+      placeId: String,
+    },
   },
   locationKey: {
     plusPageId: String,
     placeId: String,
     explicitNoPlaceId: Boolean,
-    requestId: String
+    requestId: String,
   },
   labels: [String],
   adWordsLocationExtensions: {
-    adPhone: String
+    adPhone: String,
   },
   latlng: {
     latitude: Number,
-    longitude: Number
+    longitude: Number,
   },
   openInfo: {
     status: String,
@@ -87,8 +87,8 @@ var locationSchema = new mongoose.Schema({
     openingDate: {
       year: Number,
       month: Number,
-      day: Number
-    }
+      day: Number,
+    },
   },
   locationState: {
     isGoogleUpdated: Boolean,
@@ -104,7 +104,7 @@ var locationSchema = new mongoose.Schema({
     isDisconnected: Boolean,
     isLocalPostApiDisabled: Boolean,
     hasPendingEdits: Boolean,
-    hasPendingVerification: Boolean
+    hasPendingVerification: Boolean,
   },
   attributes: [
     {
@@ -113,23 +113,23 @@ var locationSchema = new mongoose.Schema({
       values: [String],
       repeatedEnumValue: {
         setValues: [String],
-        unsetValues: [String]
+        unsetValues: [String],
       },
       urlValues: [
         {
-          url: String
-        }
-      ]
-    }
+          url: String,
+        },
+      ],
+    },
   ],
   metadata: {
     duplicate: {
       locationName: String,
       placeId: String,
-      access: String
+      access: String,
     },
     mapsUrl: String,
-    newReviewUrl: String
+    newReviewUrl: String,
   },
   priceLists: [
     {
@@ -138,8 +138,8 @@ var locationSchema = new mongoose.Schema({
         {
           displayName: String,
           description: String,
-          languageCode: String
-        }
+          languageCode: String,
+        },
       ],
       sourceUrl: String,
       sections: [
@@ -149,8 +149,8 @@ var locationSchema = new mongoose.Schema({
             {
               displayName: String,
               description: String,
-              languageCode: String
-            }
+              languageCode: String,
+            },
           ],
           sectionType: String,
           items: [
@@ -160,26 +160,26 @@ var locationSchema = new mongoose.Schema({
                 {
                   displayName: String,
                   description: String,
-                  languageCode: String
-                }
+                  languageCode: String,
+                },
               ],
               price: {
                 currencyCode: String,
                 units: String,
-                nanos: Number
-              }
-            }
-          ]
-        }
-      ]
-    }
+                nanos: Number,
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
   profile: {
-    description: String
+    description: String,
   },
   relationshipData: {
-    parentChain: String
-  }
+    parentChain: String,
+  },
 });
 
-module.exports = mongoose.model("locations", locationSchema);
+module.exports = mongoose.model('locations', locationSchema);

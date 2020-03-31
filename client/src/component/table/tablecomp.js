@@ -1,19 +1,19 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { Table } from 'semantic-ui-react';
-import _ from 'lodash';
+import React from "react";
+import { Table } from "semantic-ui-react";
+import _ from "lodash";
 
-const TableComp = props => {
+const TableComp = (props) => {
   const getKeys = () => {
-    console.log('data', props.data);
+    console.log("data", props.data);
 
     return _.keys(props.data[0]);
   };
 
   const getHeader = () => {
     const keys = getKeys();
-    return _.map(keys, key => {
-      return <Table.HeaderCell key={key}> {key.toUpperCase()}</Table.HeaderCell>;
+    return _.map(keys, (key) => {
+      return <Table.HeaderCell key={key}>{key.toUpperCase()}</Table.HeaderCell>;
     });
   };
 
@@ -29,7 +29,7 @@ const TableComp = props => {
     });
   };
 
-  console.log('comp', props);
+  console.log("comp", props);
 
   return (
     <div>
@@ -38,10 +38,10 @@ const TableComp = props => {
         selectable
         size="small"
         style={{
-          marginLeft: '250px',
-          width: '900px',
-          marginTop: '150px',
-          maxwidth: '300px',
+          marginLeft: "250px",
+          width: "900px",
+          marginTop: "150px",
+          maxwidth: "300px",
         }}
       >
         <Table.Header>
@@ -54,9 +54,9 @@ const TableComp = props => {
   );
 };
 
-const RenderRow = props => {
-  return props.keys.map(key => {
-    return <Table.Cell key={props.data[key]}> {props.data[key]}</Table.Cell>;
+const RenderRow = (props) => {
+  return props.keys.map((key) => {
+    return <Table.Cell key={props.data[key]}>{props.data[key]}</Table.Cell>;
   });
 };
 

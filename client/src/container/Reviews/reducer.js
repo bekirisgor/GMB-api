@@ -4,7 +4,7 @@ import {
   FETCH_REVIEWS_FAILURE,
   SEND_REVIEWS_BEGIN,
   SEND_REVIEWS_SUCCESS,
-  SEND_REVIEWS_FAILURE,
+  SEND_REVIEWS_FAILURE
 } from './action';
 
 const initialState = {
@@ -13,49 +13,50 @@ const initialState = {
   error: null,
   reply: '',
   replyError: null,
-  replyLoading: false,
+  replyLoading: false
 };
 
 export const reviews = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_REVIEWS_BEGIN:
+      console.log('action', action);
       return {
         ...state,
         loading: true,
-        error: null,
+        error: null
       };
     case FETCH_REVIEWS_SUCCESS:
       return {
         ...state,
         loading: false,
-        reviews: action.payload.reviews,
+        reviews: action.payload.reviews
       };
     case FETCH_REVIEWS_FAILURE:
       return {
         ...state,
         loading: true,
         reviews: [],
-        error: action.payload.error,
+        error: action.payload.error
       };
     case SEND_REVIEWS_BEGIN:
       return {
         ...state,
         replyLoading: true,
-        replyError: null,
+        replyError: null
       };
     case SEND_REVIEWS_SUCCESS:
       return {
         ...state,
         replyLoading: false,
         reply: action.payload.reply,
-        replyError: null,
+        replyError: null
       };
     case SEND_REVIEWS_FAILURE:
       return {
         ...state,
         replyLoading: false,
         reply: '',
-        replyError: action.payload.replyError,
+        replyError: action.payload.replyError
       };
 
     default:
