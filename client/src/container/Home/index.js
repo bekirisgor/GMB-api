@@ -7,9 +7,6 @@ import { fetchAccounts, fetchLocations } from './action';
 export class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      fetching: false,
-    };
   }
 
   componentDidMount() {
@@ -21,7 +18,7 @@ export class Home extends Component {
 
     return (
       <div style={{ marginLeft: '220px' }}>
-        {!this.state.fetching
+        {accounts
           ? accounts.map((items, index) => (
               <Card fluid>
                 <Card.Content>
