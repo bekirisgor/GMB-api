@@ -1,23 +1,44 @@
-import { FETCH_ACCOUNTS_BEGIN } from '../accounts/action';
-import { reviews } from '../Reviews/reducer';
+import produce from 'immer';
+import _ from 'lodash';
+import { FETCH_BEGIN, FETCH_REVIEWS, FETCH_LOCATIONS, FETCH_ACCOUNTS, FETCH_ERROR } from './action';
 
 const initialState = {
-  accounts: {
-    locationGroups: [{ reviews: [] }],
-    accountGroups: [],
-    organizationGroups: []
-  }
+  locationGroups: [{ locationsID: [] }],
+
+  locations: [{ reviewsID: [] }],
+  reviews: [],
+  loading: false,
+  error: null,
 };
 
-export const accounts = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_ACCOUNTS:
-      return {
-        ...state,
-        accounts: {
-          ...state.accounts,
-          locationGroups: []
-        }
-      };
-  }
-};
+export const fetch = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case FETCH_BEGIN:
+        draft.loading = true;
+        draft.error = false;
+        break;
+
+      case FETCH_ACCOUNTS:
+        draft.loading = false;
+        draft.error = false;
+        console.log(...state.locationGroups[0].locationsID);
+        action.payload.data.forEach((item, index) => {
+          draft.locationGroups[index] = {
+            ...item,
+            locationsID: [] || [state.locationGroups[index].locationsID],
+          };
+        });
+
+        break;
+      case FETCH_LOCATIONS:
+        draft.loading = false;
+        draft.error = false;
+
+        draft.locations.push(action.payload.data);
+
+        break;
+      default:
+        return draft;
+    }
+  });

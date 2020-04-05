@@ -19,8 +19,8 @@ const createAuthURL = () => {
     scope: 'https://www.googleapis.com/auth/business.manage',
     access_type: 'offline',
     include_granted_scopes: 'true',
-    prompt: 'none',
-    login_hint: 'bekir@rimoi.com',
+    prompt: 'consent',
+    //login_hint: 'bekir@rimoi.com',
   };
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${querystring.stringify(opts)}`;
   return authUrl;

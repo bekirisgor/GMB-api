@@ -6,8 +6,13 @@
 
   "extends": ["airbnb", "airbnb/hooks", "prettier"],
   "plugins": ["prettier", "react"],
-
+  "parser": "babel-eslint",
   "rules": {
+    "no-param-reassign": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-indent": "off",
+    "import/no-named-as-default": "off",
+    "consistent-return": "off",
     "no-template-curly-in-string": "off",
     "no-useless-constructor": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

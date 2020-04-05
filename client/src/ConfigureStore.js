@@ -7,12 +7,12 @@ import { connectRouter } from "connected-react-router";
 import { locations } from "./container/locations/reducer";
 import { accounts } from "./container/accounts/reducer";
 import { reviews } from "./container/Reviews/reducer";
+import { fetch } from "./container/Home/reducer";
 
 const rootReducer = (history) =>
   combineReducers({
-    accounts,
-    reviews,
-    locations,
+    fetch,
+
     router: connectRouter(history),
   });
 

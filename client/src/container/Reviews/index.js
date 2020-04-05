@@ -29,7 +29,7 @@ export class Reviews extends Component {
     console.log(this.state.filtered);
   }
 
-  handleonChange(value) {
+  handleonChange = (event, value) => {
     let result = [];
     switch (true) {
       case value.checked === true && value.value === "comments":
@@ -48,7 +48,7 @@ export class Reviews extends Component {
     }
 
     //    this.setState({ filtered: this.props.reviews });
-  }
+  };
 
   handleSendForm(event) {
     this.props.sendReviewReply(event.text, event.key);
