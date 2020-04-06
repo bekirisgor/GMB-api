@@ -5,7 +5,7 @@ import { FETCH_BEGIN, FETCH_REVIEWS, FETCH_LOCATIONS, FETCH_ACCOUNTS, FETCH_ERRO
 const initialState = {
   locationGroups: [{ locationsID: [] }],
 
-  locations: [{ reviewsID: [] }],
+  locations: [],
   reviews: [],
   loading: false,
   error: null,
@@ -35,7 +35,10 @@ export const fetch = (state = initialState, action) =>
         draft.loading = false;
         draft.error = false;
 
-        draft.locations.push(action.payload.data);
+        draft.locations.push(...action.payload.data);
+        for (let i = 0; i < action.payload.data.length; i++) {
+          draft.locationGroups[action.index].locationsID[i] = i + state.locations.length;
+        }
 
         break;
       default:

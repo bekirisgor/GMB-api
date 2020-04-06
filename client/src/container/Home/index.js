@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Card, List, Checkbox } from 'semantic-ui-react';
+import {
+  Card,
+  List,
+  Checkbox,
+  ListItem,
+  ListHeader,
+  ListIcon,
+  ListContent,
+} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchAccounts, fetchLocations } from './action';
@@ -13,22 +21,45 @@ export class Home extends Component {
     this.props.fetchAccounts();
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.locations.length === nextProps.locations.length) {
+      this.props.accounts.forEach((item, index) => {
+        this.props.fetchLocations(item.name, index);
+      });
+      return false;
+    }
+    return true;
+  }
+
   render() {
-    const { accounts } = this.props;
+    const { accounts, locations } = this.props;
 
     return (
       <div style={{ marginLeft: '220px' }}>
         {accounts
-          ? accounts.map((items, index) => (
+          ? accounts.map((account, index) => (
               <Card fluid>
                 <Card.Content>
-                  <Card.Header>{items.accountName}</Card.Header>
-                  <Card.Meta></Card.Meta>
+                  <Card.Header>
+                    {account.accountName} Total Location: {account.locationsID.length}
+                  </Card.Header>
+                  <Card.Meta> </Card.Meta>
                   <Card.Description>
-                    <List>
-                      <List.Item>
-                        <Checkbox />
-                      </List.Item>
+                    <List style={{ height: '120px', overflow: 'hidden', overflowY: 'scroll' }}>
+                      <ListHeader content>
+                        <Checkbox label="selectall" />
+                      </ListHeader>
+                      {locations
+                        ? account.locationsID.map((locationid) => (
+                            <ListItem>
+                              <ListContent fitted>
+                                <Checkbox label={locations[locationid].locationName} />
+
+                                <ListIcon as="a" name="map marker alternate" />
+                              </ListContent>
+                            </ListItem>
+                          ))
+                        : null}
                     </List>
                   </Card.Description>
                 </Card.Content>
