@@ -8,6 +8,7 @@
   "plugins": ["prettier", "react"],
   "parser": "babel-eslint",
   "rules": {
+    "prefer-template": "off",
     "no-param-reassign": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-indent": "off",

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { Card, Image, Rating, Form, TextArea, Button } from "semantic-ui-react";
+import React, { useState, useEffect } from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Card, Image, Rating, Form, TextArea, Button } from 'semantic-ui-react';
 
-const num = ["ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE"];
+const num = ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE'];
 
 const ReviewCard = (props) => {
   const { data } = props;
@@ -13,12 +13,12 @@ const ReviewCard = (props) => {
   let Reply = [];
   let Comment = [data.comment];
   useEffect(() => {
-    if ("reviewReply" in data) {
+    if ('reviewReply' in data) {
       setReplyValid(true);
     }
   }, [data]);
-  if (data.comment) Comment = data.comment.split("(Translated by Google)");
-  if ("reviewReply" in data) Reply = data.reviewReply.comment.split("(Translated by Google)");
+  if (data.comment) Comment = data.comment.split('(Translated by Google)');
+  if ('reviewReply' in data) Reply = data.reviewReply.comment.split('(Translated by Google)');
 
   return (
     <Card fluid key={data.name}>
@@ -54,8 +54,8 @@ const ReviewCard = (props) => {
             <Form.Field>
               <Form.TextArea
                 style={{
-                  backgroundColor: "#f0f0f0",
-                  pointerEvents: "none",
+                  backgroundColor: '#f0f0f0',
+                  pointerEvents: 'none',
                   opacity: true,
                 }}
                 value={Reply[0]}
@@ -76,8 +76,8 @@ const ReviewCard = (props) => {
             initialValues={{ text: Reply[0], key: data.name }}
             validationSchema={Yup.object().shape({
               text: Yup.string()
-                .min("4", "You must input a reply")
-                .max("4096", "Exceed reply limit"),
+                .min('4', 'You must input a reply')
+                .max('4096', 'Exceed reply limit'),
             })}
             // eslint-disable-next-line react/destructuring-assignment
             onSubmit={props.onSubmitForm}

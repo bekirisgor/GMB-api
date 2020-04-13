@@ -1,0 +1,18 @@
+{
+  "web": {
+    "client_id": "66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com",
+    "project_id": "gmp-api-266517",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "GwKfqIUHKkgYk7vB8u1x9rw0",
+    "api_key": "",
+    "redirect_uris": [
+      "http://localhost:3000/oauth2callback",
+      "http://localhost:3000/",
+      "https://www.googleapis.com/auth/business.manage",
+      "https://developers.google.com/oauthplayground/"
+    ],
+    "javascript_origins": ["http://localhost:3000"]
+  }
+}

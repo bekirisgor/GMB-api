@@ -1,77 +1,70 @@
 import React, { Component } from 'react';
-import {
-  Card,
-  List,
-  Checkbox,
-  ListItem,
-  ListHeader,
-  ListIcon,
-  ListContent,
-} from 'semantic-ui-react';
+import { Icon, Button, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchAccounts, fetchLocations } from './action';
+import Moment from 'react-moment';
+import moment from 'moment';
+import _ from 'lodash';
+
+import { fetchAccounts, fetchLocations, setVisibleLocations } from './action';
+import LocationGroup from '../../component/LocationGroup/locationGroup';
 
 export class Home extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   componentDidMount() {
-    this.props.fetchAccounts();
+    console.log(this.props.time.groupsTime, moment().diff(this.props.groupsTime, 'hours'));
+    if (
+      this.props.time.groupsTime === undefined ||
+      moment().diff(this.props.groupsTime, 'hours') > 12
+    )
+      this.props.fetchLocations();
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props.locations.length === nextProps.locations.length) {
-      this.props.accounts.forEach((item, index) => {
-        this.props.fetchLocations(item.name, index);
-      });
-      return false;
-    }
-    return true;
-  }
+  handleRefresh = (event) => {
+    event.preventDefault();
+  };
+
+  onSubmitForm = (event) => {
+    event.preventDefault();
+    event.persist();
+    const key = _.keys(this.props.locations);
+    const selected = [];
+    key.forEach((item) => {
+      if (event.target.elements[item].checked === true) selected.push(item);
+    });
+    this.props.setVisibleLocations(selected);
+  };
 
   render() {
-    const { accounts, locations } = this.props;
-
+    const { accounts, locations, time, loading } = this.props;
+    console.log(loading);
     return (
       <div style={{ marginLeft: '220px' }}>
-        {accounts
-          ? accounts.map((account, index) => (
-              <Card fluid>
-                <Card.Content>
-                  <Card.Header>
-                    {account.accountName} Total Location: {account.locationsID.length}
-                  </Card.Header>
-                  <Card.Meta> </Card.Meta>
-                  <Card.Description>
-                    <List style={{ height: '120px', overflow: 'hidden', overflowY: 'scroll' }}>
-                      <ListHeader content>
-                        <Checkbox label="selectall" />
-                      </ListHeader>
-                      {locations
-                        ? account.locationsID.map((locationid) => (
-                            <ListItem>
-                              <ListContent fitted>
-                                <Checkbox label={locations[locationid].locationName} />
-
-                                <ListIcon as="a" name="map marker alternate" />
-                              </ListContent>
-                            </ListItem>
-                          ))
-                        : null}
-                    </List>
-                  </Card.Description>
-                </Card.Content>
-              </Card>
-            ))
-          : null}
+        <div>
+          <Button icon onClick={this.handleRefresh}>
+            <Icon loading={loading} size="large" aria-label="update" name="refresh" />
+          </Button>
+          <Moment interval={10000} fromNow date={time.groupsTime} />
+        </div>
+        <Form onSubmit={this.onSubmitForm}>
+          {loading < 1
+            ? _.values(accounts).map((values) => (
+                <LocationGroup loading={loading} account={values} locations={locations} />
+              ))
+            : 'loading'}
+          <Form.Button type="submit" />
+        </Form>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  time: state.fetch.updateTime,
   accounts: state.fetch.locationGroups,
   locations: state.fetch.locations,
   loading: state.fetch.loading,
@@ -79,6 +72,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ fetchAccounts, fetchLocations }, dispatch);
+  bindActionCreators({ fetchAccounts, fetchLocations, setVisibleLocations }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
