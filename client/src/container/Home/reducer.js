@@ -58,7 +58,6 @@ export const fetch = (state = initialState, action) =>
         draft.loading = 0;
         draft.updateTime.reviewsTime = new Date();
         action.payload.data.forEach((item) => {
-          console.log('data', item);
           draft.reviews[item.name] = {
             ...item,
           };

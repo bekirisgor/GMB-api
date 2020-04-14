@@ -34,7 +34,7 @@ const fetchError = (error) => ({
   error: { error },
 });
 
-const visibleLocations = (locationID) => ({
+const visibleLocations = (locationID, status) => ({
   type: SET_VISIBLE_LOCATIONS,
   ID: locationID,
 });
@@ -71,7 +71,7 @@ export const fetchLocations = () => {
         const locationGroups = res.data.filter((items) => items.type === 'LOCATION_GROUP');
         console.log('locgroups', locationGroups);
         dispatch(fetchAccountSuccess(locationGroups));
-        locationGroups.forEach(async (item) => {
+        locationGroups.forEach(async (item, index) => {
           dispatch(fetchBegin());
           const accountID = item.name;
           console.log('accid', accountID);

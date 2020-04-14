@@ -12,7 +12,7 @@ app.use('/accounts', accountsRouter);
 app.use('/locations', locationRouter);
 app.use('/reviews', reviewsRouter);
 app.listen(5000);
-/*
+
 mongoose
   .connect('mongodb://localhost:27017/GMB', {
     useNewUrlParser: true,
@@ -22,7 +22,7 @@ mongoose
   })
   .then(() => console.log(`Database is connected`))
   .catch(err => console.log(err));
-*/
+
 const x = async () => {
   // oauth2.tokenInfo = await oauth2.getToken();
   //  var acclist = await api.listAccounts();

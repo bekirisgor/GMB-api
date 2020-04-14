@@ -6,38 +6,19 @@ const api = require('../api');
 const router = express.Router();
 
 router.get('/list/:locationID', async (req, res) => {
-  const reviewslist = await Reviews.find(
-    {
-      name: { $regex: req.params.locationID, $options: 'i' },
-    },
-    {
-      name: 1,
-      createTime: 1,
-      reviewReply: 1,
-      _id: 0,
-      comment: 1,
-      starRating: 1,
-      reviewer: 1,
-    },
-  );
+  const reviews = await api.getReviews(req.params.locationID);
 
-  if (Object.keys(reviewslist).length === 0) {
-    const reviews = await api.getReviews(req.params.locationID);
-
-    for (let i = 0; i < reviews.length; i++) {
-      await Reviews.updateOne(
-        { name: { $eq: reviews[i].name } },
-        reviews[i],
-        { upsert: true },
-        err => {
-          if (err) console.log(err);
-        },
-      );
-    }
-    res.json(reviews);
-  } else {
-    res.json(reviewslist);
+  for (let i = 0; i < reviews.length; i++) {
+    await Reviews.updateOne(
+      { name: { $eq: reviews[i].name } },
+      reviews[i],
+      { upsert: true },
+      err => {
+        if (err) console.log(err);
+      },
+    );
   }
+  res.json(reviews);
 });
 
 router.post('/reply', async (req, res) => {

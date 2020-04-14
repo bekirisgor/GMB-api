@@ -93,6 +93,7 @@ const getReviews = async (location = '') => {
       Authorization: `Bearer ${tokeninfo.access_token}`,
     },
   });
+  console.log(req);
   const locationReviews = req.data.reviews;
 
   if (req.data.nextPageToken) {
