@@ -30,12 +30,15 @@ const listAccounts = async () => {
 };
 
 const listRecommendedLocations = async (name = '') => {
-  oauth2.checkToken();
+  const tokeninfo = await oauth2.checkToken();
   const url = `https://mybusiness.googleapis.com/v4/${name}:recommendGoogleLocations`;
 
   let req = await request({
     method: 'GET',
     url,
+    headers: {
+      Authorization: `Bearer ${tokeninfo.access_token}`,
+    },
   });
   const { googleLocations } = req.data;
   if (req.data.nextPageToken) {
@@ -43,22 +46,47 @@ const listRecommendedLocations = async (name = '') => {
       req = await request({
         method: 'GET',
         url,
-        params: { pageToken: req.data.nextPageToken },
+        params: {
+          pageToken: req.data.nextPageToken,
+        },
+        headers: {
+          Authorization: `Bearer ${tokeninfo.access_token} `,
+        },
       });
       googleLocations.push(...req.data.googleLocations);
     } while (req.data.nextPageToken);
   }
+  return googleLocations;
+};
+
+//add langcode later
+const findMatches = async (location = '') => {
+  const tokeninfo = await oauth2.checkToken();
+  const url = `https://mybusiness.googleapis.com/v4/${location}:findMatches`;
+  let req = await request({
+    url,
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${tokeninfo.access_token}`,
+      'Content-Type': 'application/json',
+    },
+    data: {
+      languageCode: 'tr',
+    },
+  });
+  const { matchedLocations } = req.data;
+  return matchedLocations;
 };
 
 const listLocations = async (name = '') => {
   const tokeninfo = await oauth2.checkToken();
 
-  console.log('x', tokeninfo);
   const url = `https://mybusiness.googleapis.com/v4/${name}/locations`;
   console.log(url);
   let req = await request({
     url,
     method: 'GET',
+    params: { filter: 'openInfo.status="OPEN"' },
     headers: {
       Authorization: `Bearer ${tokeninfo.access_token}`,
     },
@@ -88,12 +116,12 @@ const getReviews = async (location = '') => {
   let req = await request({
     method: 'GET',
     url,
-    pageSize: '20',
+    pageSize: '200',
     headers: {
       Authorization: `Bearer ${tokeninfo.access_token}`,
     },
   });
-  console.log(req);
+  console.log('reviews response__', req.data.nextPageToken);
   const locationReviews = req.data.reviews;
 
   if (req.data.nextPageToken) {
@@ -101,16 +129,17 @@ const getReviews = async (location = '') => {
       req = await request({
         method: 'GET',
         url,
-        pageSize: '20',
+        pageSize: '200',
+        params: { pageToken: req.data.nextPageToken },
         headers: {
           Authorization: `Bearer ${tokeninfo.access_token}`,
         },
-        pageToken: req.data.nextPageToken,
       });
       locationReviews.push(...req.data.reviews);
+      console.log('asd', req);
     } while (req.data.nextPageToken);
   }
-  console.log('revxx', typeof req.data.reviews[0].reviewId);
+
   return locationReviews;
 };
 
@@ -137,6 +166,24 @@ const batchGetReviews = async (name = '') => {
   console.log(name);
 };
 
+const createMedia = async (locationID = '', mediaItem) => {
+  //const locationID = 'accounts/106389940524012865728/locations/14907020014453369633';
+  const tokeninfo = await oauth2.checkToken();
+  const url = `https://mybusiness.googleapis.com/v4/${locationID}/media`;
+
+  const req = request({
+    url,
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${tokeninfo.access_token}`,
+      'Content-Type': 'application/json',
+    },
+    data: { ...mediaItem },
+  });
+
+  return req.data;
+};
+
 module.exports = {
   listAccounts,
   listLocations,
@@ -144,4 +191,6 @@ module.exports = {
   batchGetReviews,
   getReviews,
   sendreviewReply,
+  findMatches,
+  createMedia,
 };

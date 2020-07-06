@@ -28,7 +28,7 @@ const ReviewCard = (props) => {
         <Card.Meta>
           <span className="date">
             {timeSince(data.createTime)}
-            ago.
+             ago.
           </span>
         </Card.Meta>
 

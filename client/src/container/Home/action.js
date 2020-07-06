@@ -10,10 +10,11 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const SET_VISIBLE_LOCATIONS = 'SET_VISIBLE_LOCATIONS';
 
 //Actions
-const fetchBegin = () => ({
+const fetchBegin = (ID) => ({
   type: FETCH_BEGIN,
+  ID,
 });
-
+//Fetch Data
 const fetchAccountSuccess = (data) => ({
   type: FETCH_ACCOUNTS,
   payload: { data },
@@ -33,21 +34,30 @@ const fetchError = (error) => ({
   type: FETCH_ERROR,
   error: { error },
 });
-
-const visibleLocations = (locationID, status) => ({
+//Set Visible Data
+const visibleLocations = (locationID, state) => ({
   type: SET_VISIBLE_LOCATIONS,
   ID: locationID,
+  status: state,
+});
+
+//Send data
+
+const sendReviewSucces = (data, reviewID) => ({
+  type: SEND_REVIEWS_SUCCESS,
+  payload: { data },
+  ID: reviewID,
 });
 
 //Action Functions
-export const setVisibleLocations = (locationID) => {
+export const setVisibleLocations = (locationID, status) => {
   return (dispatch) => {
-    dispatch(visibleLocations(locationID));
+    dispatch(visibleLocations(locationID, status));
   };
 };
 export const fetchAccounts = () => {
   return async (dispatch) => {
-    dispatch(fetchBegin());
+    dispatch(fetchBegin('acc'));
 
     return axios
       .get('/accounts/list')
@@ -74,7 +84,7 @@ export const fetchLocations = () => {
         locationGroups.forEach(async (item, index) => {
           dispatch(fetchBegin());
           const accountID = item.name;
-          console.log('accid', accountID);
+
           axios.get('/locations/list/' + encodeURIComponent(accountID)).then((resloc) => {
             dispatch(fetchLocationSuccess(resloc.data, accountID));
           });
@@ -99,28 +109,46 @@ export const fetchLocations = () => {
   };
 };
 
+export const fetchLocation = (accountID) => {
+  return async (dispatch) => {
+    dispatch(fetchBegin(accountID));
+
+    return axios.get('/locations/list/' + encodeURIComponent(accountID)).then((res) => {
+      dispatch(fetchLocationSuccess(res.data, accountID));
+    });
+  };
+};
+
 export const fetchReviews = (locationID = '') => {
   return async (dispatch) => {
     dispatch(fetchBegin());
 
     return axios
       .get(`/reviews/list/${encodeURIComponent(locationID)}`)
-      .then((res) => dispatch(fetchReviewsSuccess(res.data, locationID)))
+      .then((res) => {
+        dispatch(fetchReviewsSuccess(res.data, locationID));
+      })
       .catch((error) => {
         return dispatch(fetchError(error));
       });
   };
 };
-/*
-export const sendReviewReply = (review = "", reviewID = "") => {
+
+export const SEND_REVIEWS_BEGIN = 'SEND_REVIEWS_BEGIN';
+export const SEND_REVIEWS_SUCCESS = 'SEND_REVIEWS_SUCCESS';
+export const SEND_REVIEWS_FAILURE = 'SEND_REVIEWS_FAILURE';
+
+export const sendReviewReply = (review = '', reviewID = '') => {
   return async (dispatch) => {
     dispatch(fetchBegin());
     await axios
-      .post("/reviews/reply", { review, reviewID })
-      .then((response) => dispatch(sendReviewSucces(response.data)))
+      .post('/reviews/reply', { review, reviewID })
+      .then((response) => {
+        console.log('home action reply', response);
+        dispatch(sendReviewSucces(response.data));
+      })
       .catch((error) => {
         dispatch(fetchError(error));
       });
   };
 };
-*/

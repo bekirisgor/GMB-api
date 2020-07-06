@@ -3,11 +3,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Checkbox, Segment, Grid, Header, Rating, Form } from 'semantic-ui-react';
+import { Checkbox, Segment, Grid, Header, Rating, Pagination } from 'semantic-ui-react';
 import { produce } from 'immer';
-
+import InfiniteLoading from 'react-simple-infinite-loading';
 import _ from 'lodash';
-import { fetchReviews } from '../Home/action';
+import { fetchReviews, sendReviewReply } from '../Home/action';
 import ReviewCard from '../../component/reviewCard/reviewCard';
 
 export class Reviews extends Component {
@@ -17,62 +17,55 @@ export class Reviews extends Component {
     this.state = {
       filteredReviews: {},
       ratingValue: [],
-      filtered: ['all', 'all'],
-      // eslint-disable-next-line react/no-unused-state
-      filterComment: true,
-      // eslint-disable-next-line react/no-unused-state
-      filterReply: true,
+
+      filterReply: null,
     };
   }
 
   componentDidMount() {
     console.log('loc', this.props.visibleLocations);
-    this.props.visibleLocations.forEach((items) => {
-      console.log('item', items);
-      this.props.fetchReviews(items);
+    const { locations } = this.props;
+    const locationID = Object.keys(locations);
+
+    locationID.map((ID) => {
+      if (locations[ID].isSelected === true) this.props.fetchReviews(ID);
     });
   }
 
   filter = (data) => {
-    this.state.filtered.forEach((filteropt) => {
-      switch (filteropt) {
-        case 'all':
-          this.setState({ filteredReviews: data });
-          break;
-        case 'replied':
-          this.setState({ filteredReviews: _.filter(data, (items) => items.reviewReply) });
-          break;
-        case 'noReply':
-          this.setState({ filteredReviews: _.filter(data, (items) => !items.reviewReply) });
-          break;
-        case 'comment':
-          this.setState({ filteredReviews: _.filter(data, (items) => items.comment) });
-          break;
-        case 'noComment':
-          this.setState({ filteredReviews: _.filter(data, (items) => !items.comment) });
-          break;
-        default:
-          break;
-      }
-    });
+    switch (this.state.filterReply) {
+      case null:
+        this.setState({ filteredReviews: data });
+        break;
+      case true:
+        this.setState({ filteredReviews: _.filter(data, (items) => items.reviewReply) });
+        break;
+      case false:
+        this.setState({ filteredReviews: _.filter(data, (items) => !items.reviewReply) });
+
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleSendForm = (event, value) => {
+    console.log('event,value', event, value);
+    this.props.sendReviewReply(event.text, event.key);
   };
 
   handleChangeReply = (event, { value }) => {
-    this.setState(
-      produce((draft) => {
-        draft.filtered[0] = value;
-      }),
-      () => this.filter(this.props.reviews),
-    );
+    this.setState({ filterReply: value }, () => this.filter(this.props.reviews));
   };
 
-  handleChangeComment = (event, { value }) => {
-    this.setState(
-      produce((draft) => {
-        draft.filtered[1] = value;
-      }),
-      () => this.filter(this.props.reviews),
-    );
+  fetchMoreData = () => {
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+      this.setState({
+        items: this.state.items.concat(Array.from({ length: 20 })),
+      });
+    }, 1500);
   };
 
   render() {
@@ -92,75 +85,31 @@ export class Reviews extends Component {
                   defaultChecked
                   radio
                   label="Show All"
-                  value="all"
-                  checked={this.state.filtered[0] === 'all'}
+                  value={null}
+                  checked={this.state.filterReply === null}
                   onChange={this.handleChangeReply}
                 />
                 <br />
                 <Checkbox
                   radio
                   label="Show Only Replied"
-                  value="replied"
-                  checked={this.state.filtered[0] === 'replied'}
+                  value={true}
+                  checked={this.state.filterReply === true}
                   onChange={this.handleChangeReply}
                 />
                 <br />
                 <Checkbox
                   radio
                   label="Show Unreplied"
-                  value="noReply"
-                  checked={this.state.filtered[0] === 'noReply'}
+                  value={false}
+                  checked={this.state.filterReply === false}
                   onChange={this.handleChangeReply}
                 />
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Comments</Header>
-                <Form.Field>
-                  <Checkbox
-                    radio
-                    label="Show All"
-                    value="all"
-                    checked={this.state.filtered[1] === 'all'}
-                    onChange={this.handleChangeComment}
-                  />
-                  <br />
-                  <Checkbox
-                    radio
-                    label="Show Comments"
-                    value="comment"
-                    checked={this.state.filtered[1] === 'comment'}
-                    onChange={this.handleChangeComment}
-                  />
-                  <br />
-                  <Checkbox
-                    radio
-                    label="Show No Comments"
-                    value="noComment"
-                    checked={this.state.filtered[1] === 'noComment'}
-                    onChange={this.handleChangeComment}
-                  />
-                </Form.Field>
-              </Grid.Column>
-              <Grid.Column>
-                <Header>Rating</Header>
-                <Checkbox />
-                <Rating icon="star" disabled defaultRating={1} maxRating={5} />
-                <br />
-                <Checkbox />
-                <Rating icon="star" disabled defaultRating={2} maxRating={5} />
-                <br />
-                <Checkbox />
-                <Rating icon="star" disabled defaultRating={3} maxRating={5} />
-                <br />
-                <Checkbox />
-                <Rating icon="star" disabled defaultRating={4} maxRating={5} />
-                <br />
-                <Checkbox />
-                <Rating icon="star" disabled defaultRating={5} maxRating={5} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
         </Segment>
+
         {_.map(this.state.filteredReviews, (items) => (
           <ReviewCard data={items} onSubmitForm={this.handleSendForm} />
         ))}
@@ -172,11 +121,13 @@ export class Reviews extends Component {
 const mapStateToProps = (state) => ({
   visibleLocations: state.fetch.visibleLocationsID,
   time: state.fetch.updateTime,
+  locations: state.fetch.locations,
   accounts: state.fetch.locationGroups,
   reviews: state.fetch.reviews,
   loading: state.fetch.loading,
   error: state.fetch.error,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchReviews }, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ fetchReviews, sendReviewReply }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

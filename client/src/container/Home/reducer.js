@@ -14,9 +14,10 @@ const initialState = {
 
   locations: {},
   visibleLocationsID: ['accounts/115207451364315737681/locations/4439430707710281699'],
+
   reviews: {},
   updateTime: {},
-  loading: 0,
+  loading: {},
   error: null,
 };
 
@@ -24,14 +25,13 @@ export const fetch = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case FETCH_BEGIN:
-        draft.loading = state.loading + 1;
+        draft.loading[action.ID] = true;
         draft.error = false;
         break;
 
       case FETCH_ACCOUNTS:
-        draft.loading = state.loading - 1;
         draft.error = false;
-
+        draft.loading.acc = false;
         console.log('itemmmm', action.payload.data);
         draft.updateTime.groupsTime = new Date();
         action.payload.data.forEach((item) => {
@@ -43,19 +43,18 @@ export const fetch = (state = initialState, action) =>
 
         break;
       case FETCH_LOCATIONS:
-        draft.loading = state.loading - 1;
-
+        draft.loading[action.index] = false;
         draft.updateTime.locationTime = new Date();
         action.payload.data.forEach((item) => {
           draft.locations[item.name] = {
             ...item,
             reviewsID: [] || [state.locations[item.name].reviewsID],
+            isSelected: false,
           };
           draft.locationGroups[action.index].locationsID.push(item.name);
         });
         break;
       case FETCH_REVIEWS:
-        draft.loading = 0;
         draft.updateTime.reviewsTime = new Date();
         action.payload.data.forEach((item) => {
           draft.reviews[item.name] = {
@@ -64,7 +63,7 @@ export const fetch = (state = initialState, action) =>
         });
         break;
       case SET_VISIBLE_LOCATIONS:
-        draft.visibleLocationsID = action.ID;
+        draft.locations[action.ID].isSelected = action.status;
         break;
       case FETCH_ERROR:
         draft.error = action.error;

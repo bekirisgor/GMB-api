@@ -27,7 +27,7 @@ export const fetchReviews = (locationID = "") => {
       .then((res) => dispatch(fetchReviewsSucces(res.data)))
       .catch((error) => {
         return dispatch(fetchReviewsFailure(error));
-      });
+  });
   };
 };
 

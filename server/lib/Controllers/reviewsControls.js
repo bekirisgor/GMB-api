@@ -7,18 +7,8 @@ const router = express.Router();
 
 router.get('/list/:locationID', async (req, res) => {
   const reviews = await api.getReviews(req.params.locationID);
-
-  for (let i = 0; i < reviews.length; i++) {
-    await Reviews.updateOne(
-      { name: { $eq: reviews[i].name } },
-      reviews[i],
-      { upsert: true },
-      err => {
-        if (err) console.log(err);
-      },
-    );
-  }
-  res.json(reviews);
+  console.log('reviews control', req.params.locationID);
+  res.send(reviews);
 });
 
 router.post('/reply', async (req, res) => {

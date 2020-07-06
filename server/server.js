@@ -2,18 +2,25 @@ const express = require('express');
 
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
 const accountsRouter = require('./lib/Controllers/accountsControl');
 const locationRouter = require('./lib/Controllers/locationControls');
 const reviewsRouter = require('./lib/Controllers/reviewsControls');
+const api = require('./lib/api');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/accounts', accountsRouter);
 app.use('/locations', locationRouter);
 app.use('/reviews', reviewsRouter);
+app.use(express.static(path.join(__dirname, '../client/build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.listen(5000);
 
-mongoose
+/* mongoose
   .connect('mongodb://localhost:27017/GMB', {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -21,7 +28,7 @@ mongoose
     useFindAndModify: true,
   })
   .then(() => console.log(`Database is connected`))
-  .catch(err => console.log(err));
+  .catch(err => console.log(err)); */
 
 const x = async () => {
   // oauth2.tokenInfo = await oauth2.getToken();
@@ -43,7 +50,7 @@ const x = async () => {
   accounts.updateMany(
     { name: { $eq: "accounts/116309423562799564884" } },
     jsn,
-    {
+    {s
       upsert: true
     },
     (err, raw) => {
@@ -51,5 +58,11 @@ const x = async () => {
     }
   );
   */
+  /* 
+  console.log(JSON.stringify(await api.listRecommendedLocations('accounts/115207451364315737681')));
+   console.log(
+    await api.findMatches('accounts/115207451364315737681/locations/13569812792942138409'),
+  ); */
 };
+
 x();

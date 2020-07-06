@@ -1,17 +1,17 @@
-import React from "react";
-import { Menu, Container, Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import rimoilogo from "../../static/logo-light.png";
+import React from 'react';
+import { Menu, Container, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import rimoilogo from '../../static/logo-light.png';
 
 const NavBar = () => (
   <Container>
-    <Menu inverted fixed="top" style={{ maxHeight: "75px", backgroundColor: "#17181a" }}>
-      <Image src={rimoilogo} size="small" style={{ margin: "10px" }} />
+    <Menu inverted fixed="top" style={{ maxHeight: '75px', backgroundColor: '#17181a' }}>
+      <Image src={rimoilogo} size="small" style={{ margin: '10px' }} />
       <Container
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Menu.Item>
@@ -19,7 +19,7 @@ const NavBar = () => (
         </Menu.Item>
 
         <Menu.Item>
-          <Link to="/accounts"> Accounts</Link>
+          <Link to="/photo"> Photo</Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/locations"> Location</Link>

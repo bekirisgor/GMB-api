@@ -20,7 +20,7 @@ const createAuthURL = () => {
     access_type: 'offline',
     include_granted_scopes: 'true',
     prompt: 'consent',
-    //login_hint: 'bekir@rimoi.com',
+    login_hint: 'bekir@rimoi.com',
   };
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${querystring.stringify(opts)}`;
   return authUrl;
@@ -76,12 +76,38 @@ const getToken = async () => {
   return token;
 };
 const checkToken = async () => {
-  if (tokenInfo && tokenInfo.expiry_date >= new Date().getTime() && tokenInfo.expiry_date) {
-    console.log('token valid');
+  if (tokenInfo && tokenInfo.expiry_date) {
+    console.log('token valid', tokenInfo);
     return tokenInfo;
-  }
-  tokenInfo = await getToken();
+  } else if (tokenInfo.expiry_date && tokenInfo.expiry_date < new Date().getTime) {
+    tokenInfo = await refreshToken();
+    console.log('refresh token', tokenInfo);
+  } else tokenInfo = await getToken();
   return tokenInfo;
 };
 
+const refreshToken = async () => {
+  console.log('refreshing tokn');
+  const values = {
+    client_id: keys.web.client_id,
+    client_secret: keys.web.client_secret,
+    refreshToken: tokenInfo.refresh_token,
+    grant_type: 'refresh_token',
+  };
+  const url = 'https://oauth2.googleapis.com/token';
+  const res = await request({
+    method: 'POST',
+    url,
+    data: querystring.stringify(values),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    responseType: 'json',
+  });
+  const token = res.data;
+  if (res.data && res.data.expires_in) {
+    token.expiry_date = new Date().getTime() + res.data.expires_in * 1000;
+    delete token.expires_in;
+  }
+
+  return token;
+};
 module.exports = { getToken, tokenInfo, checkToken };

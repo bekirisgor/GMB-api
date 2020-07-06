@@ -1,15 +1,16 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { Container } from "semantic-ui-react";
-import Home from "./container/Home/index";
-import { AccTable } from "./container/accounts";
-import Location from "./container/locations";
-import Reviews from "./container/Reviews";
-import SideBar from "./component/sidebar/sidebar";
-import NavBar from "./component/navbar/navbar";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
+import Home from './container/Home/index';
+import { AccTable } from './container/accounts';
+import Location from './container/locations';
+import Reviews from './container/Reviews';
+import SideBar from './component/sidebar/sidebar';
+import NavBar from './component/navbar/navbar';
+import MediaForm from './container/media';
 
 const App = () => (
-  <Container style={{ marginTop: "200px" }}>
+  <Container style={{ marginTop: '200px' }}>
     <NavBar />
     <SideBar />
 
@@ -24,6 +25,10 @@ const App = () => (
 
       <Route path="/reviews">
         <Reviews />
+      </Route>
+
+      <Route path="/photo">
+        <MediaForm />
       </Route>
 
       <Route exact path="/">
