@@ -26,6 +26,10 @@
     "type": "git",
     "url": "git+https://github.com/bekirisgor/GMB-api.git"
   },
+  "cacheDirectories": [
+    "client/node_modules",
+    "server/node_modules"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
