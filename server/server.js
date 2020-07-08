@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.listen(5000, '172.31.11.65');
+app.listen(5000, 'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com');
 
 /* mongoose
   .connect('mongodb://localhost:27017/GMB', {
