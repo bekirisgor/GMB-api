@@ -8,6 +8,7 @@ const accountsRouter = require('./lib/Controllers/accountsControl');
 const locationRouter = require('./lib/Controllers/locationControls');
 const reviewsRouter = require('./lib/Controllers/reviewsControls');
 const api = require('./lib/api');
+const cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
