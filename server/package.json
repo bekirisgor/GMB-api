@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "directories": {},
   "dependencies": {
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
