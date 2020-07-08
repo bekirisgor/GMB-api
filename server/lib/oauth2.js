@@ -29,7 +29,7 @@ const createAuthURL = () => {
 const getCode = async () => {
   app.listen(
     3000,
-    open(createAuthURL(), { wait: true }).then(cp => cp.unref()),
+    open(createAuthURL(), { wait: true }).then((cp) => cp.unref()),
   );
 
   return new Promise((resolve, reject) => {

@@ -14,8 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/accounts', accountsRouter);
 app.use('/locations', locationRouter);
 app.use('/reviews', reviewsRouter);
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 app.listen(5000);
@@ -31,7 +32,8 @@ app.listen(5000);
   .catch(err => console.log(err)); */
 
 const x = async () => {
-  // oauth2.tokenInfo = await oauth2.getToken();
+  console.log('runnign at PORT', process.env.PORT);
+  // oauth2.tokenInfo = await oauth2.hergetToken();
   //  var acclist = await api.listAccounts();
   // console.log(acclist);
   /*for (let i = 0; i < jsn.length; i++) {
