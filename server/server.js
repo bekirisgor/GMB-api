@@ -25,7 +25,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 app.listen(process.env.PORT || 5000);
-
+app.get('/test', (req, res) => {
+  res.sendStatus(200).send('test succesful');
+});
 /* mongoose
   .connect('mongodb://localhost:27017/GMB', {
     useNewUrlParser: true,
