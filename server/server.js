@@ -9,6 +9,7 @@ const accountsRouter = require('./lib/Controllers/accountsControl');
 const locationRouter = require('./lib/Controllers/locationControls');
 const reviewsRouter = require('./lib/Controllers/reviewsControls');
 const api = require('./lib/api');
+
 const oauth2Code = require('./lib/oauth2').router;
 
 app.use(cors());
@@ -19,11 +20,11 @@ app.use('/locations', locationRouter);
 app.use('/reviews', reviewsRouter);
 app.use('/oauth2callback', oauth2Code);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
-app.listen(process.env.PORT || 5000);
+app.listen(5000);
 
 /* mongoose
   .connect('mongodb://localhost:27017/GMB', {

@@ -90,14 +90,16 @@ export class Home extends Component {
     const { accounts, locations, time, loading } = this.props;
 
     const { activeIndex } = this.state;
-
+    //link local  https://accounts.google.com/o/oauth2/v2/auth?client_id=66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com&response_type=code&redirect_uri=http:localhost:5000%2Foauth2callback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbusiness.manage&access_type=offline&include_granted_scopes=true&prompt=consent
+    // link gmb  https://accounts.google.com/o/oauth2/v2/auth?client_id=66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com&response_type=code&redirect_uri=https%3A%2F%2Fgmb.herokuapp.com%2Foauth2callback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbusiness.manage&access_type=offline&include_granted_scopes=true&prompt=consent&login_hint=bekir%40rimoi.com
+    // aws https://accounts.google.com/o/oauth2/v2/auth?client_id=66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com&response_type=code&redirect_uri=https%3A%2F%2Fgmb.herokuapp.com%2Foauth2callback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbusiness.manage&access_type=offline&include_granted_scopes=true&prompt=consent&login_hint=bekir%40rimoi.com
     return (
       <div style={{ marginLeft: '220px' }}>
         <div>
           <Button
             as="a"
             target="popup"
-            href="https://accounts.google.com/o/oauth2/v2/auth?client_id=66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com&response_type=code&redirect_uri=https%3A%2F%2Fgmb.herokuapp.com%2Foauth2callback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbusiness.manage&access_type=offline&include_granted_scopes=true&prompt=consent&login_hint=bekir%40rimoi.com"
+            href="https://accounts.google.com/o/oauth2/v2/auth?client_id=66875520156-8gc7rf7vvv4570oeboqgag71c84fcr41.apps.googleusercontent.com&response_type=code&redirect_uri=http://ec2-3-120-181-41.eu-central-1.compute.amazonaws.com:5000%2Foauth2callback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbusiness.manage&access_type=offline&include_granted_scopes=true&prompt=consent"
           ></Button>
         </div>
         {/* <div>

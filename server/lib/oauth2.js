@@ -30,7 +30,7 @@ const createAuthURL = () => {
 };
 
 router.get('/', async (req, res) => {
-  const qs = new URL(req.url, 'http://localhost:3000/oauth2callback').searchParams;
+  const qs = new URL(req.url, 'http://localhost:5000/oauth2callback').searchParams;
   const code = qs.get('code');
   console.log(code);
   res.end('got code', code);
