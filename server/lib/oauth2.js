@@ -32,7 +32,7 @@ const createAuthURL = () => {
 router.get('/', async (req, res) => {
   const qs = new URL(
     req.url,
-    'http://ec2-3-120-181-40.eu-central-1.compute.amazonaws.com/:5000/oauth2callback',
+    'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com/:5000/oauth2callback',
   ).searchParams;
   const code = qs.get('code');
   console.log(code);
