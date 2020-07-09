@@ -4,9 +4,12 @@ const { request } = require('gaxios');
 const express = require('express');
 const { URL } = require('url');
 const querystring = require('querystring');
+const router = express.Router();
+
 const open = require('open');
 
 const app = express();
+let code2 = '';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,11 +29,16 @@ const createAuthURL = () => {
   return authUrl;
 };
 
+router.get('/', async (req, res) => {
+  const qs = new URL(req.url, 'http://localhost:3000/oauth2callback').searchParams;
+  const code = qs.get('code');
+  console.log(code);
+  res.end('got code', code);
+  code2 = code;
+});
+
 const getCode = async () => {
-  app.listen(
-    3000,
-    open(createAuthURL(), { wait: true }).then((cp) => cp.unref()),
-  );
+  console.log(createAuthURL());
 
   return new Promise((resolve, reject) => {
     try {
@@ -49,7 +57,7 @@ const getCode = async () => {
 
 const getToken = async () => {
   const values = {
-    code: await getCode(),
+    code: code2,
     client_id: keys.web.client_id,
     client_secret: keys.web.client_secret,
     redirect_uri: keys.web.redirect_uris[0],
@@ -110,4 +118,4 @@ const refreshToken = async () => {
 
   return token;
 };
-module.exports = { getToken, tokenInfo, checkToken };
+module.exports = { getToken, tokenInfo, checkToken, router };

@@ -9,19 +9,21 @@ const accountsRouter = require('./lib/Controllers/accountsControl');
 const locationRouter = require('./lib/Controllers/locationControls');
 const reviewsRouter = require('./lib/Controllers/reviewsControls');
 const api = require('./lib/api');
+const oauth2Code = require('./lib/oauth2').router;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); /*  */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/accounts', accountsRouter);
 app.use('/locations', locationRouter);
 app.use('/reviews', reviewsRouter);
+app.use('/oauth2callback', oauth2Code);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.listen(5000, 'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com');
+app.listen(process.env.PORT || 5000);
 
 /* mongoose
   .connect('mongodb://localhost:27017/GMB', {

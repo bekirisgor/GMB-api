@@ -8,11 +8,11 @@
     "client_secret": "GwKfqIUHKkgYk7vB8u1x9rw0",
     "api_key": "",
     "redirect_uris": [
-      "http://localhost:3000/oauth2callback",
+      "http://localhost:5000/oauth2callback",
       "http://localhost:3000/",
       "https://www.googleapis.com/auth/business.manage",
       "https://developers.google.com/oauthplayground/"
     ],
-    "javascript_origins": ["http://localhost:3000"]
+    "javascript_origins": ["http://localhost:5000"]
   }
 }
