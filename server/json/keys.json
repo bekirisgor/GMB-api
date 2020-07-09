@@ -8,7 +8,7 @@
     "client_secret": "GwKfqIUHKkgYk7vB8u1x9rw0",
     "api_key": "",
     "redirect_uris": [
-      "http://localhost:5000/oauth2callback",
+      "http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com:5000/oauth2callback",
       "http://localhost:3000/",
       "https://www.googleapis.com/auth/business.manage",
       "https://developers.google.com/oauthplayground/"
