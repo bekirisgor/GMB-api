@@ -110,6 +110,7 @@ const refreshToken = async () => {
 };
 
 router.get('/', async (req, res) => {
+  let prevCode = code2;
   const qs = new URL(
     req.url,
     'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com/:5000/oauth2callback',
@@ -117,9 +118,11 @@ router.get('/', async (req, res) => {
   const code = qs.get('code');
   console.log(code);
   res.end('got code', code);
-  code2 = code;
 
-  tokenInfo = await getToken();
+  if (prevCode !== null && prevCode !== code) {
+    code2 = code;
+    tokenInfo = await getToken();
+  }
 });
 
 module.exports = { getToken, tokenInfo, checkToken, router };
