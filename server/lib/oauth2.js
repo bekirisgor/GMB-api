@@ -122,7 +122,7 @@ router.get('/', async (req, res) => {
   res.end('got code', code);
   code2 = code;
 
-  getToken();
+  tokenInfo = await getToken();
 });
 
 module.exports = { getToken, tokenInfo, checkToken, router };
