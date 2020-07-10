@@ -7,6 +7,7 @@ const querystring = require('querystring');
 const router = express.Router();
 
 const open = require('open');
+const { get } = require('https');
 
 const app = express();
 let code2 = '';
@@ -28,17 +29,6 @@ const createAuthURL = () => {
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${querystring.stringify(opts)}`;
   return authUrl;
 };
-
-router.get('/', async (req, res) => {
-  const qs = new URL(
-    req.url,
-    'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com/:5000/oauth2callback',
-  ).searchParams;
-  const code = qs.get('code');
-  console.log(code);
-  res.end('got code', code);
-  code2 = code;
-});
 
 const getCode = async () => {
   console.log(createAuthURL());
@@ -121,4 +111,18 @@ const refreshToken = async () => {
 
   return token;
 };
+
+router.get('/', async (req, res) => {
+  const qs = new URL(
+    req.url,
+    'http://ec2-18-196-183-252.eu-central-1.compute.amazonaws.com/:5000/oauth2callback',
+  ).searchParams;
+  const code = qs.get('code');
+  console.log(code);
+  res.end('got code', code);
+  code2 = code;
+
+  getToken();
+});
+
 module.exports = { getToken, tokenInfo, checkToken, router };
