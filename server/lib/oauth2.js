@@ -6,9 +6,6 @@ const { URL } = require('url');
 const querystring = require('querystring');
 const router = express.Router();
 
-const open = require('open');
-const { get } = require('https');
-
 const app = express();
 let code2 = '';
 
