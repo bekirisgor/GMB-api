@@ -21,12 +21,15 @@ const RecommendedLocationsModal = (props) => {
             fluid
             header={data.location.locationName}
             meta={
-              <a
-                href={qs.stringify(
-                  'https://www.google.com/maps/place/?q=place_id:' +
-                    data.location.locationKey.placeId,
-                )}
-              />
+              <>
+                <p>sss</p>
+                <a
+                  href={qs.stringify(
+                    'https://www.google.com/maps/place/?q=place_id:' +
+                      data.location.locationKey.placeId,
+                  )}
+                />
+              </>
             }
             description={JSON.stringify(data.location.address)}
           />
