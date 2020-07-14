@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Card } from 'semantic-ui-react';
 import axios from 'axios';
+import qs from 'querystring';
 
 const RecommendedLocationsModal = (props) => {
   const { accountID } = props;
@@ -19,7 +20,14 @@ const RecommendedLocationsModal = (props) => {
           <Card
             fluid
             header={data.location.locationName}
-            meta={JSON.stringify(data.location.latlng)}
+            meta={
+              <a
+                href={qs.stringify(
+                  'https://www.google.com/maps/place/?q=place_id:' +
+                    data.location.locationKey.placeId,
+                )}
+              />
+            }
             description={JSON.stringify(data.location.address)}
           />
         ))}
