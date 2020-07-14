@@ -20,17 +20,7 @@ const RecommendedLocationsModal = (props) => {
           <Card
             fluid
             header={data.location.locationName}
-            meta={
-              <>
-                <p>sss</p>
-                <a
-                  href={qs.stringify(
-                    'https://www.google.com/maps/place/?q=place_id:' +
-                      data.location.locationKey.placeId,
-                  )}
-                />
-              </>
-            }
+            meta={data.location.locationKey.placeId}
             description={JSON.stringify(data.location.address)}
           />
         ))}
